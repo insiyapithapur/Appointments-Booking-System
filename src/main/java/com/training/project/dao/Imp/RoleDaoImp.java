@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 
 import com.training.project.dao.GenericDao;
 import com.training.project.model.Role;
+import com.training.project.model.User;
 
 public class RoleDaoImp implements GenericDao<Role, Integer>{
 //	private SessionFactory sessionFactory;
@@ -15,6 +16,10 @@ public class RoleDaoImp implements GenericDao<Role, Integer>{
 //        this.sessionFactory = HibernateUtil.getSessionFactory();
 //    }
 	private Session session;
+	
+	public RoleDaoImp() {
+		super();
+	}
 
 	public RoleDaoImp(Session session) {
 		super();
@@ -23,7 +28,9 @@ public class RoleDaoImp implements GenericDao<Role, Integer>{
 	
 	@Override
 	public Role findById(Integer id) {
-		return session.get(Role.class, id);
+		Role role = session.get(Role.class, id);
+	    System.out.println("Doctor role id: " + role);
+		return role;
 	}
 
 	@Override

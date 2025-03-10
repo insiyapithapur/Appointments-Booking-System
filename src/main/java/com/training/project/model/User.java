@@ -11,6 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "users")
 public class User {
+	
     
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,6 +64,14 @@ public class User {
 		this.passwordHash = passwordHash;
 		this.createdAt = createdAt;
 		this.lastLogin = lastLogin;
+		this.isLogin = isLogin;
+		this.role = role;
+	}
+	
+	public User(String username, String passwordHash, Boolean isLogin,Role role) {
+		super();
+		this.username = username;
+		this.passwordHash = passwordHash;
 		this.isLogin = isLogin;
 		this.role = role;
 	}

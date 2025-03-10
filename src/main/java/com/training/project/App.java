@@ -1,8 +1,10 @@
 package com.training.project;
 
 import org.hibernate.SessionFactory;
-import com.training.project.model.Role;
-import com.training.project.service.RoleService;
+
+import com.training.project.dao.Imp.RoleDaoImp;
+import com.training.project.model.*;
+import com.training.project.service.*;
 import com.training.project.util.HibernateUtil;
 
 /**
@@ -15,7 +17,7 @@ public class App {
             // Load Hibernate session factory
         	SessionFactory sessionFactory=HibernateUtil.getSessionFactory();
 
-        	RoleService roleService = new RoleService(sessionFactory);
+        	/*RoleService roleService = new RoleService(sessionFactory);
         	
         	Role r1=new Role("Admin");
         	createdRole(roleService, r1);
@@ -24,7 +26,16 @@ public class App {
         	createdRole(roleService, r2);
         	
         	Role r3=new Role("Doctor");
-        	createdRole(roleService, r3);
+        	createdRole(roleService, r3);*/
+        	
+        	UserService userService = new UserService(sessionFactory);
+//        	RoleDaoImp roledao = new RoleDaoImp();
+//        	
+//        	Role role = roledao.findById(3);
+//        	User doctorUser1 = new User("Insiya_Doc1","ROOT",true,role);
+//        	userService.createDoctorByAdmin(1);
+        	userService.createPatient();
+//        	userService.AllUser();
         	
         } catch (Exception e) {
             e.printStackTrace();
@@ -33,13 +44,13 @@ public class App {
         
     }
     
-    private static void createdRole(RoleService roleService, Role r) {
-		boolean isCreated=roleService.create(r);
-        if(isCreated) {
-        	System.out.println(r+" added to record");
-        }
-        else {
-        	System.out.println("Failed to added");
-        }
-	}
+//    private static void createdRole(RoleService roleService, Role r) {
+//		boolean isCreated=roleService.create(r);
+//        if(isCreated) {
+//        	System.out.println(r+" added to record");
+//        }
+//        else {
+//        	System.out.println("Failed to added");
+//        }
+//	}
 }
