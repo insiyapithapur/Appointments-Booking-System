@@ -11,6 +11,7 @@ import com.training.project.util.HibernateUtil;
 public class App {
     public static void main(String[] args) {
         System.out.println("Hello World!");
+        //ifgwufgwugu
         try {
             // Load Hibernate session factory
         	SessionFactory sessionFactory=HibernateUtil.getSessionFactory();
