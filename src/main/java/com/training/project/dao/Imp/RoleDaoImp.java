@@ -1,0 +1,108 @@
+package com.training.project.dao.Imp;
+
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.training.project.dao.GenericDao;
+import com.training.project.model.Role;
+
+public class RoleDaoImp implements GenericDao<Role, Integer>{
+//	private SessionFactory sessionFactory;
+//    
+//    public RoleDaoImpl() {
+//        this.sessionFactory = HibernateUtil.getSessionFactory();
+//    }
+	private Session session;
+
+	public RoleDaoImp(Session session) {
+		super();
+		this.session = session;
+	}
+	
+	@Override
+	public Role findById(Integer id) {
+		return session.get(Role.class, id);
+	}
+
+	@Override
+	public List<Role> findAll() {
+		return session.createQuery("FROM Role", Role.class).getResultList();
+	}
+
+	@Override
+	public boolean create(Role role) {
+		Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.save(role);
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+            return false;
+        }
+	}
+
+	@Override
+	public boolean update(Role role) {
+		Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.update(role);
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+            return false;
+        }
+	}
+
+	@Override
+	public boolean deleteById(Integer id) {
+		Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Role role = session.get(Role.class, id);
+            if (role != null) {
+                session.delete(role);
+                tx.commit();
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+            return false;
+        }
+	}
+
+	@Override
+	public boolean delete(Role role) {
+		Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.delete(role);
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+            return false;
+        }
+	}
+
+	@Override
+	public long count() {
+		return session.createQuery("SELECT COUNT(*) FROM Role", Long.class)
+                .getSingleResult();
+	}
+
+	@Override
+	public boolean exists(Integer id) {
+		return session.get(Role.class, id) != null;
+	}
+}

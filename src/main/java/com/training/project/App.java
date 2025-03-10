@@ -1,10 +1,8 @@
 package com.training.project;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import java.math.BigDecimal;
-import java.util.List;
-
+import com.training.project.model.Role;
+import com.training.project.service.RoleService;
 import com.training.project.util.HibernateUtil;
 
 /**
@@ -17,41 +15,31 @@ public class App {
             // Load Hibernate session factory
         	SessionFactory sessionFactory=HibernateUtil.getSessionFactory();
 
-            // Open session
-            Session session = sessionFactory.openSession();
-            session.beginTransaction();
-
-            // Run a simple query
-            String sql = "SELECT 1 FROM DUAL";  // Oracle test query
-            BigDecimal result = (BigDecimal) session.createNativeQuery(sql).getSingleResult();
-            
-            String tablesSql = "SELECT table_name FROM user_tables ORDER BY table_name";
-            @SuppressWarnings("unchecked")
-            List<Object> tablesList = session.createNativeQuery(tablesSql).getResultList();
-            
-            // Display the tables
-            System.out.println("\nYour database tables:");
-            System.out.println("--------------------");
-            if (tablesList.isEmpty()) {
-                System.out.println("No tables found for current user.");
-            } else {
-                for (Object tableNameObj : tablesList) {
-                    String tableName = tableNameObj.toString();
-                    System.out.println(tableName);
-                }
-                System.out.println("\nTotal tables: " + tablesList.size());
-            }
-            
-            System.out.println("Hibernate is connected to Oracle! Query Result: " + result);
-
-            // Close session
-            session.getTransaction().commit();
-            session.close();
-            sessionFactory.close();
+        	RoleService roleService = new RoleService(sessionFactory);
+        	
+        	Role r1=new Role("Admin");
+        	createdRole(roleService, r1);
+        	
+        	Role r2=new Role("Patient");
+        	createdRole(roleService, r2);
+        	
+        	Role r3=new Role("Doctor");
+        	createdRole(roleService, r3);
+        	
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Failed to connect to Oracle!");
         }
         
     }
+    
+    private static void createdRole(RoleService roleService, Role r) {
+		boolean isCreated=roleService.create(r);
+        if(isCreated) {
+        	System.out.println(r+" added to record");
+        }
+        else {
+        	System.out.println("Failed to added");
+        }
+	}
 }
